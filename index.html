@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta name="google-site-verification" content="-B535vp-ym_ZPIxkSBkJE-gHfg45X80gKJgK4Lgemwo" />
+    <meta name="google-site-verification" content="KV12NDhvoAM6yzUnY_3xbYJ62mGJkSfGxO3kkJ9W5Qg" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>대출모음 - 전국 1등 대출 중개 플랫폼</title>
@@ -23,10 +23,23 @@
     </style>
 </head>
 <body class="overflow-x-hidden">
-
-    <nav class="glass sticky top-0 z-50 py-3 px-4 flex justify-between items-center h-[60px]">
+        <div class="max-w-3xl mx-auto relative bg-white shadow-2xl min-h-screen">
+                            <!-- Left Banner -->
+                            <div class="absolute top-32 right-full mr-4 hidden lg:block w-40 h-96">
+                                <img src="https://wimg.sedaily.com/news/legacy/2017/03/21/1ODGIK0HWC_1.jpg" alt="Left Game Ad" class="w-full h-full object-cover rounded-lg shadow-lg">
+                            </div>        <!-- Right Banner -->
+        <div class="absolute top-32 left-full ml-4 hidden lg:block w-40 h-96">
+            <img src="https://cdn-dantats.stunning.kr/prod/portfolios/3d577a95-acfb-42ce-b2c5-ecd14f72e6a7/covers/fzeExHdyPcyvUEng.%ED%99%80%EB%8D%A4%ED%8E%8D%20%EC%98%A4%EC%B9%B4%EB%8B%A4%20%EA%B4%91%EA%B3%A0%20%ED%8F%AC%EC%8A%A4%ED%84%B0_%EC%8B%9C%EC%95%88%20%EC%88%98%EC%A0%95%20%EB%B3%B5%EC%82%AC.jpg.small?t=crop&q=60&f=webp&e=9x0&s=580x580" alt="Right Game Ad" class="w-full h-full object-cover rounded-lg shadow-lg">
+        </div>            
+            <nav class="glass sticky top-0 z-50 py-3 px-4 flex justify-between items-center h-[60px]">
         <h1 class="text-xl font-black text-blue-600 tracking-tighter italic cursor-pointer" onclick="showPage('main')">대출모음</h1>
         <div class="flex items-center gap-2">
+            <div class="relative flex items-center">
+                <svg class="absolute left-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="16" height="16">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+                <input type="text" placeholder="대출상품 검색" class="w-40 pl-8 p-2 bg-gray-100 rounded-lg text-sm font-medium outline-none focus:ring-2 focus:ring-blue-300 transition-all duration-200">
+            </div>
             <button class="text-blue-600 font-bold px-3 py-1 text-sm border border-blue-600 rounded-lg" onclick="showPage('login')">로그인</button>
             <button class="bg-blue-600 text-white px-4 py-2 rounded-lg font-bold text-xs shadow-md" onclick="showPage('register')">업체등록</button>
         </div>
@@ -43,29 +56,39 @@
         <section class="py-10 px-5 bg-white border-b border-gray-100 text-center">
             <h1 class="text-2xl font-black text-gray-900 mb-2 leading-tight">전국 <span class="text-blue-600 underline">대출업체 매칭</span> 1등</h1>
             <p class="text-gray-400 font-medium text-[11px] mb-8 italic">사용자 맞춤 실시간 리스팅 서비스</p>
+            <section class="px-5 py-8 grid grid-cols-4 gap-4 bg-white border-b border-gray-50 text-center text-gray-600">
+                <div onclick="showPage('area')"><span class="text-2xl">📍</span><p class="text-[11px] font-bold mt-2">지역별</p></div>
+                <div onclick="showPage('type')"><span class="text-2xl">🏢</span><p class="text-[11px] font-bold mt-2">종류별</p></div>
+                <div onclick="showPage('verify')"><span class="text-2xl">🔍</span><p class="text-[11px] font-bold mt-2">정식조회</p></div>
+                <div onclick="showPage('ads')"><span class="text-2xl">📢</span><p class="text-[11px] font-bold mt-2 text-blue-600">광고문의</p></div>
+            </section>
             
-            <div class="max-w-xl mx-auto bg-white p-3 rounded-[24px] filter-shadow flex flex-col gap-2 border border-gray-50 text-left">
-                <select id="main-region" class="w-full p-4 bg-gray-50 rounded-xl font-bold outline-none border-none text-sm cursor-pointer">
-                    <option value="all">전국 (지역선택)</option>
-                    <option value="seoul">서울특별시</option><option value="gyeonggi">경기도</option><option value="incheon">인천광역시</option>
-                    <option value="busan">부산광역시</option><option value="daegu">대구광역시</option><option value="gwangju">광주광역시</option>
-                    <option value="daejeon">대전광역시</option><option value="ulsan">울산광역시</option><option value="sejong">세종특별자치시</option>
-                    <option value="gangwon">강원도</option><option value="chungbuk">충청북도</option><option value="jeju">제주도</option>
-                </select>
-                <select id="main-category" class="w-full p-4 bg-gray-50 rounded-xl font-bold outline-none border-none text-sm cursor-pointer">
-                    <option value="all">대출 종류 (전체)</option>
-                    <option value="type">소액대출</option><option value="type">직장인대출</option><option value="type">사업자대출</option>
-                    <option value="type">저신용자대출</option><option value="type">당일대출</option>
-                </select>
-                <button onclick="handleMainSearch()" class="bg-blue-600 text-white w-full py-4 rounded-xl font-black text-base active:scale-95 shadow-lg shadow-blue-100 transition-all">검색하기</button>
+            <div class="max-w-xl mx-auto bg-white p-4 rounded-[24px] filter-shadow border border-gray-50 text-left">
+                <div class="mb-6">
+                    <h3 class="text-sm font-bold text-gray-400 mb-3 px-1">지역별 바로찾기</h3>
+                    <div id="region-buttons" class="grid grid-cols-4 gap-2">
+                        <button onclick="updateSelection('region', '전국', this)" class="filter-btn">전국</button>
+                        <button onclick="updateSelection('region', '서울', this)" class="filter-btn">서울</button>
+                        <button onclick="updateSelection('region', '경기', this)" class="filter-btn">경기</button>
+                        <button onclick="updateSelection('region', '인천', this)" class="filter-btn">인천</button>
+                        <button onclick="updateSelection('region', '부산', this)" class="filter-btn">부산</button>
+                        <button onclick="updateSelection('region', '대구', this)" class="filter-btn">대구</button>
+                        <button onclick="updateSelection('region', '광주', this)" class="filter-btn">광주</button>
+                        <button onclick="updateSelection('region', '대전', this)" class="filter-btn">대전</button>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-sm font-bold text-gray-400 mb-3 px-1">상품별 바로찾기</h3>
+                    <div id="loantype-buttons" class="grid grid-cols-3 gap-2">
+                        <button onclick="updateSelection('loantype', '소액대출', this)" class="filter-btn"><span>🏢</span><span>소액대출</span></button>
+                        <button onclick="updateSelection('loantype', '직장인', this)" class="filter-btn"><span>👨‍💼</span><span>직장인</span></button>
+                        <button onclick="updateSelection('loantype', '사업자', this)" class="filter-btn"><span>🛍️</span><span>사업자</span></button>
+                        <button onclick="updateSelection('loantype', '저신용', this)" class="filter-btn"><span>📈</span><span>저신용</span></button>
+                        <button onclick="updateSelection('loantype', '당일대출', this)" class="filter-btn"><span>📅</span><span>당일대출</span></button>
+                    </div>
+                </div>
+                <div id="main-results-container" class="mt-8 space-y-3 hidden"></div>
             </div>
-        </section>
-
-        <section class="px-5 py-8 grid grid-cols-4 gap-4 bg-white border-b border-gray-50 text-center text-gray-600">
-            <div onclick="showPage('area')"><span class="text-2xl">📍</span><p class="text-[11px] font-bold mt-2">지역별</p></div>
-            <div onclick="showPage('type')"><span class="text-2xl">🏢</span><p class="text-[11px] font-bold mt-2">종류별</p></div>
-            <div onclick="showPage('verify')"><span class="text-2xl">🔍</span><p class="text-[11px] font-bold mt-2">정식조회</p></div>
-            <div onclick="showPage('ads')"><span class="text-2xl">📢</span><p class="text-[11px] font-bold mt-2 text-blue-600">광고문의</p></div>
         </section>
 
         <section class="max-w-7xl mx-auto py-12 px-5 text-left">
@@ -167,6 +190,48 @@
     </footer>
 
     <script>
+        let selectedRegion = null;
+        let selectedLoanType = null;
+
+        function updateSelection(group, value, element) {
+            if (group === 'region') {
+                selectedRegion = selectedRegion === value ? null : value;
+            } else if (group === 'loantype') {
+                selectedLoanType = selectedLoanType === value ? null : value;
+            }
+
+            const buttonGroup = element.parentElement;
+            buttonGroup.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            if ((group === 'region' && selectedRegion) || (group === 'loantype' && selectedLoanType)) {
+                 element.classList.add('active');
+            }
+
+            showResults();
+        }
+
+        function showResults() {
+            const container = document.getElementById('main-results-container');
+            if (selectedRegion && selectedLoanType) {
+                container.innerHTML = '';
+                container.classList.remove('hidden');
+
+                const title = document.createElement('h4');
+                title.className = 'text-center font-bold text-blue-600 py-2';
+                title.innerText = `'${selectedRegion} X ${selectedLoanType}' 맞춤 추천!`;
+                container.appendChild(title);
+
+                for(let i=0; i<2; i++) {
+                    container.appendChild(document.getElementById('item-temp').content.cloneNode(true));
+                }
+            } else {
+                container.classList.add('hidden');
+                container.innerHTML = '';
+            }
+        }
+        
         function handleMainSearch() { showPage('area'); }
 
         function showPage(pageId) {
@@ -226,7 +291,6 @@
         }
         window.onload = initMain;
     </script>
+    </div>
 </body>
-
 </html>
-
