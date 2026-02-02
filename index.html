@@ -20,17 +20,17 @@
         .sticky-tabs { position: sticky; top: 60px; z-index: 40; background: white; border-bottom: 1px solid #eee; }
         input, select, textarea, button { font-size: 16px !important; }
         .social-btn { transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 10px; font-weight: 800; }
+        
+        #page-detail .section { margin-bottom: 25px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
+        #page-detail .section h3 { font-size: 18px; color: #555; margin-bottom: 15px; border-left: 4px solid #007bff; padding-left: 10px; font-weight: 900; }
+        #page-detail .detail-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 10px; }
+        #page-detail .detail-item { background: #f8f9fa; padding: 12px; border-radius: 8px;}
+        #page-detail .detail-item label { display: block; font-size: 13px; color: #666; margin-bottom: 4px; font-weight: 700;}
+        #page-detail .detail-item span { font-size: 15px; color: #333; }
     </style>
 </head>
 <body class="overflow-x-hidden">
         <div class="max-w-3xl mx-auto relative bg-white shadow-2xl min-h-screen">
-                            <!-- Left Banner -->
-                            <div class="absolute top-32 right-full mr-4 hidden lg:block w-40 h-96">
-                                <img src="https://wimg.sedaily.com/news/legacy/2017/03/21/1ODGIK0HWC_1.jpg" alt="Left Game Ad" class="w-full h-full object-cover rounded-lg shadow-lg">
-                            </div>        <!-- Right Banner -->
-        <div class="absolute top-32 left-full ml-4 hidden lg:block w-40 h-96">
-            <img src="https://cdn-dantats.stunning.kr/prod/portfolios/3d577a95-acfb-42ce-b2c5-ecd14f72e6a7/covers/fzeExHdyPcyvUEng.%ED%99%80%EB%8D%A4%ED%8E%8D%20%EC%98%A4%EC%B9%B4%EB%8B%A4%20%EA%B4%91%EA%B3%A0%20%ED%8F%AC%EC%8A%A4%ED%84%B0_%EC%8B%9C%EC%95%88%20%EC%88%98%EC%A0%95%20%EB%B3%B5%EC%82%AC.jpg.small?t=crop&q=60&f=webp&e=9x0&s=580x580" alt="Right Game Ad" class="w-full h-full object-cover rounded-lg shadow-lg">
-        </div>            
             <nav class="glass sticky top-0 z-50 py-3 px-4 flex justify-between items-center h-[60px]">
         <h1 class="text-xl font-black text-blue-600 tracking-tighter italic cursor-pointer" onclick="showPage('main')">대출랜드</h1>
         <div class="flex items-center gap-2">
@@ -104,6 +104,8 @@
         </section>
     </div>
 
+    <div id="page-detail" class="page-content hidden bg-white min-h-screen p-6"></div>
+
     <div id="page-login" class="page-content hidden bg-white min-h-[calc(100vh-60px)] flex flex-col items-center justify-center px-6 pb-24">
         <div class="max-w-[400px] w-full text-center">
             <h2 class="text-3xl font-black text-blue-600 mb-10 italic uppercase tracking-tighter">Login</h2>
@@ -173,7 +175,7 @@
     </div>
 
     <template id="item-temp">
-        <div class="bg-white border border-gray-100 rounded-[24px] p-5 shadow-sm text-left">
+        <div class="bg-white border border-gray-100 rounded-[24px] p-5 shadow-sm text-left cursor-pointer hover:shadow-lg transition-shadow">
             <div class="flex items-center gap-2 mb-1"><span class="bg-blue-50 text-blue-600 text-[9px] font-black px-2 py-0.5 rounded tracking-tighter uppercase font-black">Verified</span><h3 class="text-base font-black">에이스 대출중개</h3></div>
             <p class="text-[10px] text-gray-400 font-bold mb-4 italic">전국 비대면 당일 전문</p>
             <div class="flex justify-between items-center font-black italic mb-4 text-sm px-2">
@@ -189,98 +191,311 @@
         <p class="text-[9px] text-gray-300 uppercase tracking-widest">© 2026 대출랜드. All Rights Reserved.</p>
     </footer>
 
-    <script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
+        import { getFirestore, collection, getDocs, getDoc, doc as firestoreDoc, query, orderBy, where, limit as firestoreLimit } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAYd6PZFWAoXDnz80l_1-0EDtkDxAkQFy4",
+            authDomain: "laos-project-ff295.firebaseapp.com",
+            projectId: "laos-project-ff295",
+            storageBucket: "laos-project-ff295.firebasestorage.app",
+            messagingSenderId: "7764846397",
+            appId: "1:7764846397:web:8977b486e092c0f7d24754",
+            measurementId: "G-LMD3B020W7"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
         let selectedRegion = null;
         let selectedLoanType = null;
 
         function updateSelection(group, value, element) {
-            if (group === 'region') {
-                selectedRegion = selectedRegion === value ? null : value;
-            } else if (group === 'loantype') {
-                selectedLoanType = selectedLoanType === value ? null : value;
-            }
-
             const buttonGroup = element.parentElement;
-            buttonGroup.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
             
-            if ((group === 'region' && selectedRegion) || (group === 'loantype' && selectedLoanType)) {
-                 element.classList.add('active');
+            if (group === 'region') {
+                if (selectedRegion === value) {
+                    selectedRegion = null;
+                    element.classList.remove('active');
+                } else {
+                    selectedRegion = value;
+                    buttonGroup.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+                    element.classList.add('active');
+                }
+            } else if (group === 'loantype') {
+                if (selectedLoanType === value) {
+                    selectedLoanType = null;
+                    element.classList.remove('active');
+                } else {
+                    selectedLoanType = value;
+                    buttonGroup.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+                    element.classList.add('active');
+                }
             }
-
             showResults();
         }
 
-        function showResults() {
+        async function showResults() {
             const container = document.getElementById('main-results-container');
+            
             if (selectedRegion && selectedLoanType) {
-                container.innerHTML = '';
+                container.innerHTML = '<p class="text-center text-gray-500 py-4">맞춤 상품을 찾는 중입니다...</p>';
                 container.classList.remove('hidden');
+                
+                try {
+                    const adsCollection = collection(db, "ads");
+                    const q = query(adsCollection, 
+                                    where("region", "==", selectedRegion), 
+                                    where("loan_type", "==", selectedLoanType),
+                                    orderBy("created_at", "desc"));
+                    const querySnapshot = await getDocs(q);
 
-                const title = document.createElement('h4');
-                title.className = 'text-center font-bold text-blue-600 py-2';
-                title.innerText = `'${selectedRegion} X ${selectedLoanType}' 맞춤 추천!`;
-                container.appendChild(title);
+                    const title = document.createElement('h4');
+                    title.className = 'text-center font-bold text-blue-600 py-2';
+                    title.innerText = `'${selectedRegion}' X '${selectedLoanType}' 맞춤 추천!`;
+                    
+                    container.innerHTML = '';
+                    container.appendChild(title);
+                    renderAds(querySnapshot, container, false);
 
-                for(let i=0; i<2; i++) {
-                    container.appendChild(document.getElementById('item-temp').content.cloneNode(true));
+                } catch(e) {
+                    console.error("맞춤 상품 검색 실패: ", e);
+                    container.innerHTML = '';
+                    const title = document.createElement('h4');
+                    title.className = 'text-center font-bold text-blue-600 py-2';
+                    title.innerText = `'${selectedRegion}' X '${selectedLoanType}' 맞춤 추천!`;
+                    container.appendChild(title);
+                    let errorMsg = '<p class="text-center text-red-500">상품을 불러오는 중 오류가 발생했습니다.</p>';
+                    if (e.code === 'failed-precondition') {
+                        errorMsg += '<p class="text-center text-xs text-gray-600 mt-2">이 필터링을 사용하려면 Firestore 데이터베이스에 색인이 필요합니다. 브라우저 개발자 콘솔(F12)을 열어 오류 메시지에 포함된 색인 생성 링크를 클릭하여 색인을 만들어주세요.</p>'
+                    }
+                    container.innerHTML += errorMsg;
                 }
+
             } else {
                 container.classList.add('hidden');
                 container.innerHTML = '';
             }
         }
         
-        function handleMainSearch() { showPage('area'); }
-
-        function showPage(pageId) {
+        function showPage(pageId, detailId = null) {
             document.querySelectorAll('.page-content').forEach(p => p.classList.add('hidden'));
+            document.getElementById('bottom-bar').classList.remove('hidden');
+
             const listPages = ['area', 'type', 'verify'];
             
-            if (listPages.includes(pageId)) {
+            if (pageId === 'detail') {
+                document.getElementById('page-detail').classList.remove('hidden');
+                document.getElementById('bottom-bar').classList.add('hidden');
+                loadAdDetail(detailId);
+            } else if (listPages.includes(pageId)) {
                 document.getElementById('page-list').classList.remove('hidden');
                 updateTabs(pageId);
                 setupListing(pageId);
             } else {
-                document.getElementById('page-' + pageId).classList.remove('hidden');
+                const pageElement = document.getElementById(`page-${pageId}`);
+                if (pageElement) {
+                    pageElement.classList.remove('hidden');
+                }
             }
-            if (pageId === 'main') initMain();
+
+            if (pageId === 'main') {
+                initMain();
+            }
             window.scrollTo(0, 0);
         }
 
         function updateTabs(activeId) {
             ['area', 'type', 'verify'].forEach(id => {
                 const tab = document.getElementById('tab-' + id);
-                if (id === activeId) { tab.classList.add('text-blue-600', 'border-b-2', 'border-blue-600'); tab.classList.remove('text-gray-400'); }
+                if (id === activeId) { tab.classList.add('text-blue-600', 'border-b-2', 'border-blue-600'); tab.classList.remove('text-gray-400'); } 
                 else { tab.classList.remove('text-blue-600', 'border-b-2', 'border-blue-600'); tab.classList.add('text-gray-400'); }
             });
         }
+        
+        function renderAds(querySnapshot, container, shouldClear = true) {
+            if (shouldClear) {
+                container.innerHTML = '';
+            }
+            const template = document.getElementById('item-temp');
 
-        function setupListing(type) {
+            if (querySnapshot.empty) {
+                container.innerHTML += '<p class="text-center text-gray-500 py-8">해당 조건의 업체가 없습니다.</p>';
+                return;
+            }
+
+            querySnapshot.forEach(doc => {
+                const ad = doc.data();
+                const clone = template.content.cloneNode(true);
+                const adItem = clone.querySelector('.bg-white');
+
+                adItem.onclick = () => showPage('detail', doc.id);
+                
+                clone.querySelector('h3').textContent = ad.company_name || '정보 없음';
+                clone.querySelector('p').textContent = ad.title || '정보 없음';
+                
+                const limitDiv = clone.querySelector('.flex.justify-between > div:first-child');
+                limitDiv.innerHTML = `<span class="text-[9px] text-gray-400 not-italic block uppercase">Limit</span>${ad.limit || '정보 없음'}`;
+
+                const rateDiv = clone.querySelector('div.text-right');
+                rateDiv.innerHTML = `<span class="text-[9px] text-gray-400 not-italic block uppercase">Rate</span>${ad.yearly_rate || '정보 없음'}`;
+
+                const phoneButton = clone.querySelector('button.bg-blue-600');
+                if (ad.phone) {
+                    phoneButton.onclick = (e) => {
+                        e.stopPropagation();
+                        window.location.href = `tel:${ad.phone}`;
+                    };
+                }
+                container.appendChild(clone);
+            });
+        }
+
+        async function loadAdDetail(adId) {
+            const detailContainer = document.getElementById('page-detail');
+            detailContainer.innerHTML = '<p class="text-center text-gray-500 py-20">상세 정보를 불러오는 중입니다...</p>';
+
+            if (!adId) {
+                detailContainer.innerHTML = '<p class="text-center text-red-500 py-20">잘못된 접근입니다.</p>';
+                return;
+            }
+
+            try {
+                const docRef = firestoreDoc(db, "ads", adId);
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    const ad = docSnap.data();
+                    detailContainer.innerHTML = `
+                        <div class="pb-24">
+                            <h2 class="text-3xl font-black text-gray-900 mb-4">${ad.title}</h2>
+                            
+                            <div class="section">
+                                <h3>🏢 업체정보</h3>
+                                <div class="detail-grid">
+                                    <div class="detail-item"><label>업체명</label><span>${ad.company_name || ''}</span></div>
+                                    <div class="detail-item"><label>연락처</label><span>${ad.phone || ''}</span></div>
+                                    <div class="detail-item"><label>등록번호</label><span>${ad.reg_number || ''}</span></div>
+                                    <div class="detail-item"><label>등록기관</label><span>${ad.agency || ''}</span></div>
+                                    <div class="detail-item col-span-full"><label>영업소 주소</label><span>${ad.address || ''}</span></div>
+                                </div>
+                            </div>
+
+                            <div class="section">
+                                <h3>💰 상품정보</h3>
+                                <div class="detail-grid">
+                                    <div class="detail-item"><label>대출한도</label><span>${ad.limit || ''}</span></div>
+                                    <div class="detail-item"><label>연 금리</label><span>${ad.yearly_rate || ''}</span></div>
+                                    <div class="detail-item"><label>월 금리</label><span>${ad.monthly_rate || ''}</span></div>
+                                    <div class="detail-item"><label>상환기간</label><span>${ad.period || ''}</span></div>
+                                    <div class="detail-item"><label>상환방식</label><span>${ad.repayment || ''}</span></div>
+                                    <div class="detail-item"><label>연체금리</label><span>${ad.overdue_rate || ''}</span></div>
+                                    <div class="detail-item"><label>추가비용</label><span>${ad.extra_fee || ''}</span></div>
+                                    <div class="detail-item"><label>중도상환수수료</label><span>${ad.prepay_fee || ''}</span></div>
+                                    <div class="detail-item"><label>가능 지역</label><span>${ad.region || ''}</span></div>
+                                    <div class="detail-item"><label>상품 종류</label><span>${ad.loan_type || ''}</span></div>
+                                </div>
+                            </div>
+                            <button onclick="history.back()" class="w-full bg-gray-700 text-white py-4 rounded-xl font-black mt-8 shadow-lg">뒤로가기</button>
+                        </div>
+                    `;
+                } else {
+                    detailContainer.innerHTML = '<p class="text-center text-red-500 py-20">해당 광고를 찾을 수 없습니다.</p>';
+                }
+            } catch (e) {
+                console.error("상세 정보 로딩 실패: ", e);
+                detailContainer.innerHTML = '<p class="text-center text-red-500 py-20">정보를 불러오는 중 오류가 발생했습니다.</p>';
+            }
+        }
+
+        async function setupListing(type) {
             const container = document.getElementById('list-container');
             const filters = document.getElementById('list-filters');
             document.getElementById('list-title').innerText = type==='area'?'📍 지역별 찾기':type==='type'?'🏢 종류별 찾기':'🔍 정식조회';
-            container.innerHTML = ''; filters.innerHTML = '';
-            
+            container.innerHTML = '<p class="text-center text-gray-500 py-8">상단에서 카테고리를 선택해주세요.</p>';
+            filters.innerHTML = '';
+
             if (type === 'area') {
-                ['전국','서울','경기','인천','부산','대구','대전','광주','울산','세종','강원','충북','충남','전북','전남','경북','경남','제주'].forEach(a => {
-                    const btn = document.createElement('div'); btn.className = 'filter-btn' + (a==='전국'?' active':''); btn.innerText = a; filters.appendChild(btn);
+                const regions = ['전국','서울','경기','인천','부산','대구','대전','광주','울산','세종','강원','충북','충남','전북','전남','경북','경남','제주'];
+                regions.forEach(region => {
+                    const btn = document.createElement('div');
+                    btn.className = 'filter-btn';
+                    btn.innerText = region;
+                    btn.onclick = async () => {
+                        filters.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                        container.innerHTML = '<p class="text-center text-gray-500 py-8">데이터를 불러오는 중입니다...</p>';
+                        const adsCollection = collection(db, "ads");
+                        const q = region === '전국'
+                            ? query(adsCollection, orderBy("created_at", "desc"))
+                            : query(adsCollection, where("region", "==", region), orderBy("created_at", "desc"));
+                        try {
+                            const querySnapshot = await getDocs(q);
+                            renderAds(querySnapshot, container);
+                        } catch(e) {
+                            console.error("지역별 광고 로딩 실패: ", e);
+                            let errorMsg = '<p class="text-center text-red-500">광고를 불러오는 중 오류가 발생했습니다.</p>';
+                            if (e.code === 'failed-precondition') {
+                                errorMsg += '<p class="text-center text-sm text-gray-600 mt-2">이 필터링을 사용하려면 Firestore 데이터베이스에 색인이 필요합니다. 브라우저 개발자 콘솔(F12)을 열어 오류 메시지에 포함된 색인 생성 링크를 클릭하여 색인을 만들어주세요.</p>'
+                            }
+                            container.innerHTML = errorMsg;
+                        }
+                    };
+                    filters.appendChild(btn);
                 });
+                if (filters.querySelector('.filter-btn')) filters.querySelector('.filter-btn').click();
             } else if (type === 'type') {
-                [['🏢','소액'],['👨‍💼','직장인'],['🛍️','사업자'],['📈','저신용'],['📅','당일대출']].forEach(t => {
-                    const btn = document.createElement('div'); btn.className = 'filter-btn'; btn.innerHTML = `<span>${t[0]}</span><span>${t[1]}</span>`; filters.appendChild(btn);
+                const loanTypes = [['🏢','소액대출'],['👨‍💼','직장인'],['🛍️','사업자'],['📈','저신용'],['📅','당일대출']];
+                loanTypes.forEach(([emoji, typeName]) => {
+                    const btn = document.createElement('div');
+                    btn.className = 'filter-btn';
+                    btn.innerHTML = `<span>${emoji}</span><span>${typeName}</span>`;
+                    btn.onclick = async () => {
+                        filters.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                        container.innerHTML = '<p class="text-center text-gray-500 py-8">데이터를 불러오는 중입니다...</p>';
+                        const adsCollection = collection(db, "ads");
+                        const q = query(adsCollection, where("loan_type", "==", typeName), orderBy("created_at", "desc"));
+                        try {
+                            const querySnapshot = await getDocs(q);
+                            renderAds(querySnapshot, container);
+                        } catch(e) {
+                            console.error("종류별 광고 로딩 실패: ", e);
+                            let errorMsg = '<p class="text-center text-red-500">광고를 불러오는 중 오류가 발생했습니다.</p>';
+                            if (e.code === 'failed-precondition') {
+                                errorMsg += '<p class="text-center text-sm text-gray-600 mt-2">이 필터링을 사용하려면 Firestore 데이터베이스에 색인이 필요합니다. 브라우저 개발자 콘솔(F12)을 열어 오류 메시지에 포함된 색인 생성 링크를 클릭하여 색인을 만들어주세요.</p>'
+                            }
+                            container.innerHTML = errorMsg;
+                        }
+                    };
+                    filters.appendChild(btn);
                 });
+                if (filters.querySelector('.filter-btn')) filters.querySelector('.filter-btn').click();
             } else {
                 filters.innerHTML = '<div class="col-span-3 flex gap-2 w-full"><input type="text" placeholder="등록번호 입력" class="flex-1 p-4 border rounded-xl text-sm outline-none font-bold"><button class="bg-blue-600 text-white px-6 py-2 rounded-xl font-bold">조회</button></div>';
+                container.innerHTML = '';
             }
-            for(let i=0; i<5; i++) container.appendChild(document.getElementById('item-temp').content.cloneNode(true));
         }
-
-        function initMain() {
+        
+        async function loadAdsFromFirebase() {
             const adCon = document.getElementById('main-ads-container');
+            if (!adCon) return;
+            
+            try {
+                const adsCollection = collection(db, "ads");
+                const q = query(adsCollection, orderBy("created_at", "desc"), firestoreLimit(3));
+                const querySnapshot = await getDocs(q);
+                renderAds(querySnapshot, adCon)
+            } catch (e) {
+                console.error("Firebase에서 광고 로딩 실패: ", e);
+                adCon.innerHTML = '<p class="col-span-3 text-center text-red-500">광고를 불러오는 중 오류가 발생했습니다.</p>';
+            }
+        }
+        
+        function initMain() {
+            loadAdsFromFirebase();
             const inqCon = document.getElementById('main-inquiry-container');
-            if(!adCon.innerHTML) for(let i=0; i<3; i++) adCon.appendChild(document.getElementById('item-temp').content.cloneNode(true));
             if(!inqCon.innerHTML) {
                 ["급전 300만원 당일 가능?", "사업자 한도 문의", "직장인 신용대출", "저신용자 500만원", "당일대출 조건 문의"].forEach(q => {
                     const d = document.createElement('div'); d.className = 'p-5 flex justify-between items-center';
@@ -289,7 +504,11 @@
                 });
             }
         }
-        window.onload = initMain;
+
+        window.showPage = showPage;
+        window.updateSelection = updateSelection;
+        window.onload = () => showPage('main');
+
     </script>
     </div>
 </body>
