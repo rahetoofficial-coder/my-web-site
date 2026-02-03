@@ -279,7 +279,8 @@
             }
         }
         
-        function showPage(pageId, detailId = null) {
+        // Internal function to render the page content based on pageId and detailId
+        function _renderPage(pageId, detailId = null) {
             document.querySelectorAll('.page-content').forEach(p => p.classList.add('hidden'));
             document.getElementById('bottom-bar').classList.remove('hidden');
 
@@ -305,6 +306,25 @@
             }
             window.scrollTo(0, 0);
         }
+
+        // Public function to navigate between pages and manage browser history
+        function showPage(pageId, detailId = null, pushState = true) {
+            const url = `#${pageId}${detailId ? '/' + detailId : ''}`;
+            if (pushState) {
+                history.pushState({ pageId: pageId, detailId: detailId }, '', url);
+            }
+            _renderPage(pageId, detailId);
+        }
+
+        // Event listener for browser's back/forward buttons
+        window.addEventListener('popstate', (event) => {
+            if (event.state) {
+                _renderPage(event.state.pageId, event.state.detailId);
+            } else {
+                // If no state, default to main page
+                _renderPage('main');
+            }
+        });
 
         function updateTabs(activeId) {
             ['area', 'type', 'verify'].forEach(id => {
@@ -507,7 +527,18 @@
 
         window.showPage = showPage;
         window.updateSelection = updateSelection;
-        window.onload = () => showPage('main');
+        // Initial page load handler
+        window.onload = () => {
+            const hash = window.location.hash.substring(1);
+            if (hash) {
+                const parts = hash.split('/');
+                const pageId = parts[0];
+                const detailId = parts[1] || null;
+                showPage(pageId, detailId, false); // Do not push state again
+            } else {
+                showPage('main'); // Default to main page and push state
+            }
+        };
 
     </script>
     </div>
