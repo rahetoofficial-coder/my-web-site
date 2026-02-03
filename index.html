@@ -27,10 +27,15 @@
         #page-detail .detail-item { background: #f8f9fa; padding: 12px; border-radius: 8px;}
         #page-detail .detail-item label { display: block; font-size: 13px; color: #666; margin-bottom: 4px; font-weight: 700;}
         #page-detail .detail-item span { font-size: 15px; color: #333; }
+
     </style>
 </head>
-<body class="overflow-x-hidden">
-        <div class="max-w-3xl mx-auto relative bg-white shadow-2xl min-h-screen">
+<body class="bg-[#f3f7ff]">
+            <div class="flex justify-center">
+                <div class="hidden lg:block w-[250px] flex-shrink-0 mx-4">             <a href="https://stop.pmang.com/pmang-poker" target="_blank" class="sticky top-10"><img src="banners/pkaHK1696662054.jpg" alt="Left Banner Ad" width="250" height="500"></a>
+        </div>
+
+        <div class="max-w-3xl w-full bg-white shadow-2xl min-h-screen">
             <nav class="glass sticky top-0 z-50 py-3 px-4 flex justify-between items-center h-[60px]">
         <h1 class="text-xl font-black text-blue-600 tracking-tighter italic cursor-pointer" onclick="showPage('main')">대출랜드</h1>
         <div class="flex items-center gap-2">
@@ -59,7 +64,7 @@
             <section class="px-5 py-8 grid grid-cols-4 gap-4 bg-white border-b border-gray-50 text-center text-gray-600">
                 <div onclick="showPage('area')"><span class="text-2xl">📍</span><p class="text-[11px] font-bold mt-2">지역별</p></div>
                 <div onclick="showPage('type')"><span class="text-2xl">🏢</span><p class="text-[11px] font-bold mt-2">종류별</p></div>
-                <div onclick="showPage('verify')"><span class="text-2xl">🔍</span><p class="text-[11px] font-bold mt-2">정식조회</p></div>
+                <div onclick="showPage('verify')"><span class="text-2xl">🔍</span><p class="text-[11px] font-bold mt-2">이자 계산기</p></div>
                 <div onclick="showPage('ads')"><span class="text-2xl">📢</span><p class="text-[11px] font-bold mt-2 text-blue-600">광고문의</p></div>
             </section>
             
@@ -146,7 +151,7 @@
         <div class="sticky-tabs flex justify-around py-3 px-4 shadow-sm">
             <button id="tab-area" onclick="showPage('area')" class="text-sm font-bold text-gray-400 pb-1">지역별</button>
             <button id="tab-type" onclick="showPage('type')" class="text-sm font-bold text-gray-400 pb-1">종류별</button>
-            <button id="tab-verify" onclick="showPage('verify')" class="text-sm font-bold text-gray-400 pb-1">정식조회</button>
+            <button id="tab-verify" onclick="showPage('verify')" class="text-sm font-bold text-gray-400 pb-1">이자 계산기</button>
         </div>
         <section class="py-8 px-5">
             <h2 id="list-title" class="text-2xl font-black italic mb-6">📍 리스트 확인</h2>
@@ -167,7 +172,11 @@
     </div>
 
     <div id="page-register" class="page-content hidden bg-white pb-24 text-left"><section class="py-12 px-6 max-w-xl mx-auto"><h2 class="text-2xl font-black mb-10 italic">업체 회원가입</h2><div class="space-y-6"><label class="font-black text-sm block">핸드폰 인증</label><div class="flex gap-2"><input type="tel" placeholder="010-0000-0000" class="flex-1 p-4 bg-gray-50 rounded-xl outline-none font-bold text-sm"><button class="bg-blue-600 text-white px-4 py-2 rounded-xl font-bold text-xs">인증요청</button></div><button class="w-full bg-blue-600 text-white py-5 rounded-2xl font-black text-lg mt-6">가입 완료</button></div></section></div>
-    <div id="page-ads" class="page-content hidden bg-white pb-24 text-left"><section class="py-10 px-6 max-w-xl mx-auto"><h2 class="text-2xl font-black mb-8 italic text-blue-600">AD Inquiry</h2><div class="bg-gray-50 p-6 rounded-[28px] border border-gray-100"><input type="text" placeholder="업체명" class="w-full p-4 bg-white border-none rounded-xl mb-3 outline-none font-bold text-sm"><button onclick="alert('접수')" class="w-full bg-blue-600 text-white py-4 rounded-xl font-black">신청하기</button></div></section></div>
+    <div id="page-ads" class="page-content hidden bg-white pb-24 text-left"><section class="py-10 px-6 max-w-xl mx-auto"><h2 class="text-2xl font-black mb-8 italic text-blue-600">AD Inquiry</h2><div class="bg-gray-50 p-6 rounded-[28px] border border-gray-100"><input type="text" placeholder="업체명" class="w-full p-4 bg-white border-none rounded-xl mb-3 outline-none font-bold text-sm">
+                        <input type="text" placeholder="담당자 성함" class="w-full p-4 bg-white border-none rounded-xl mb-3 outline-none font-bold text-sm">
+                        <input type="email" placeholder="이메일 주소" class="w-full p-4 bg-white border-none rounded-xl mb-3 outline-none font-bold text-sm">
+                        <input type="tel" placeholder="연락처" class="w-full p-4 bg-white border-none rounded-xl mb-3 outline-none font-bold text-sm">
+                        <textarea rows="4" placeholder="문의 내용" class="w-full p-4 bg-white border-none rounded-xl mb-3 outline-none font-bold text-sm"></textarea><button onclick="alert('접수')" class="w-full bg-blue-600 text-white py-4 rounded-xl font-black">신청하기</button></div></section></div>
 
     <div id="bottom-bar" class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-5 py-3 flex gap-3 z-50 shadow-[0_-5px_20px_rgba(0,0,0,0.05)]">
         <button class="flex-1 bg-blue-600 text-white py-4 rounded-xl font-black text-sm shadow-md" onclick="window.location.href='tel:1588-0000'">실시간 전화상담</button>
@@ -432,7 +441,7 @@
         async function setupListing(type) {
             const container = document.getElementById('list-container');
             const filters = document.getElementById('list-filters');
-            document.getElementById('list-title').innerText = type==='area'?'📍 지역별 찾기':type==='type'?'🏢 종류별 찾기':'🔍 정식조회';
+            document.getElementById('list-title').innerText = type==='area'?'📍 지역별 찾기':type==='type'?'🏢 종류별 찾기':'🔍 이자 계산기';
             container.innerHTML = '<p class="text-center text-gray-500 py-8">상단에서 카테고리를 선택해주세요.</p>';
             filters.innerHTML = '';
 
@@ -493,9 +502,223 @@
                 });
                 if (filters.querySelector('.filter-btn')) filters.querySelector('.filter-btn').click();
             } else {
-                filters.innerHTML = '<div class="col-span-3 flex gap-2 w-full"><input type="text" placeholder="등록번호 입력" class="flex-1 p-4 border rounded-xl text-sm outline-none font-bold"><button class="bg-blue-600 text-white px-6 py-2 rounded-xl font-bold">조회</button></div>';
-                container.innerHTML = '';
+                filters.innerHTML = `
+                    <div class="col-span-3 space-y-5 text-sm">
+                        <div class="flex items-center">
+                            <label class="w-24 font-bold text-gray-600">대출금액</label>
+                            <div class="flex-1 flex items-center bg-white border rounded-xl">
+                                <input type="text" inputmode="numeric" id="loan-amount" placeholder="금액 입력" class="w-full p-3 rounded-xl outline-none font-bold text-right">
+                                <span class="px-4 text-gray-500 font-bold">원</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <label class="w-24 font-bold text-gray-600">대출기간</label>
+                            <div class="flex-1 flex items-center bg-white border rounded-xl">
+                                <input type="number" id="loan-term" placeholder="기간 입력" class="w-full p-3 rounded-xl outline-none font-bold text-right">
+                                <div id="term-unit-selector" class="flex items-center p-1">
+                                    <button data-unit="year" class="term-unit-btn bg-blue-600 text-white rounded-lg px-3 py-1 text-xs font-bold">년</button>
+                                    <button data-unit="month" class="term-unit-btn text-gray-500 rounded-lg px-3 py-1 text-xs font-bold">월</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <label class="w-24 font-bold text-gray-600">대출금리</label>
+                            <div class="flex-1 flex items-center bg-white border rounded-xl">
+                                <input type="number" id="interest-rate" placeholder="금리 입력" class="w-full p-3 rounded-xl outline-none font-bold text-right">
+                                <span class="px-4 text-gray-500 font-bold">%</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <label class="w-24 font-bold text-gray-600">상환방법</label>
+                            <div id="repayment-method-selector" class="flex-1 grid grid-cols-3 gap-1 text-xs">
+                                <button data-method="equal-installment" class="repayment-btn bg-blue-600 text-white p-3 rounded-lg font-bold">원리금균등</button>
+                                <button data-method="equal-principal" class="repayment-btn bg-white text-gray-600 p-3 rounded-lg font-bold border">원금균등</button>
+                                <button data-method="bullet" class="repayment-btn bg-white text-gray-600 p-3 rounded-lg font-bold border">만기일시</button>
+                            </div>
+                        </div>
+                        <button onclick="calculateInterest()" class="w-full bg-blue-600 text-white py-4 mt-4 rounded-xl font-black shadow-lg">계산하기</button>
+                    </div>
+                `;
+                container.innerHTML = `
+                    <div id="calculator-result" class="text-center p-2 md:p-6"></div>
+                    <div id="matching-ads-section" class="hidden pt-8">
+                        <h3 class="text-xl font-black text-gray-900 mb-6 px-5 italic">📈 맞춤 추천 상품</h3>
+                        <div id="matching-ads-container" class="space-y-3"></div>
+                    </div>
+                `;
+                
+                // Add event listener for loan amount formatting
+                document.getElementById('loan-amount').addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/[^0-9]/g, '');
+                    if (value) {
+                        e.target.value = parseInt(value, 10).toLocaleString();
+                    } else {
+                        e.target.value = '';
+                    }
+                });
+
+                // Add event listeners for the new button groups
+                document.querySelectorAll('.term-unit-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        document.querySelectorAll('.term-unit-btn').forEach(b => {
+                            b.classList.remove('bg-blue-600', 'text-white');
+                            b.classList.add('text-gray-500');
+                        });
+                        btn.classList.add('bg-blue-600', 'text-white');
+                        btn.classList.remove('text-gray-500');
+                    });
+                });
+
+                document.querySelectorAll('.repayment-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        document.querySelectorAll('.repayment-btn').forEach(b => {
+                            b.classList.remove('bg-blue-600', 'text-white');
+                            b.classList.add('bg-white', 'text-gray-600', 'border');
+                        });
+                        btn.classList.add('bg-blue-600', 'text-white');
+                        btn.classList.remove('bg-white', 'text-gray-600', 'border');
+                    });
+                });
             }
+        }
+
+        async function displayMatchingAds(userAmount, userRate) {
+            const section = document.getElementById('matching-ads-section');
+            const container = document.getElementById('matching-ads-container');
+            
+            section.classList.remove('hidden');
+            container.innerHTML = '<p class="text-center text-gray-500 py-8">맞춤 상품을 찾는 중입니다...</p>';
+
+            try {
+                const adsCollection = collection(db, "ads");
+                const q = query(adsCollection, orderBy("created_at", "desc"));
+                const querySnapshot = await getDocs(q);
+
+                const matchingDocs = [];
+                querySnapshot.forEach(doc => {
+                    const ad = doc.data();
+                    
+                    const parseLimit = (limitStr) => {
+                        if (!limitStr || typeof limitStr !== 'string') return 0;
+                        const num = parseFloat(limitStr.replace(/[^0-9.]/g, ''));
+                        if (isNaN(num)) return 0;
+                        return limitStr.includes('만') ? num * 10000 : num;
+                    };
+
+                    const parseRate = (rateStr) => {
+                        if (!rateStr || typeof rateStr !== 'string') return Infinity;
+                        const num = parseFloat(rateStr.replace(/[^0-9.]/g, ''));
+                        return isNaN(num) ? Infinity : num;
+                    };
+
+                    const adLimit = parseLimit(ad.limit);
+                    const adRate = parseRate(ad.yearly_rate);
+
+                    if (userAmount <= adLimit) {
+                        matchingDocs.push(doc);
+                    }
+                });
+
+                const fakeSnapshot = {
+                    empty: matchingDocs.length === 0,
+                    forEach: (callback) => matchingDocs.forEach(callback)
+                };
+                
+                renderAds(fakeSnapshot, container);
+
+            } catch (e) {
+                console.error("맞춤 상품 검색 실패: ", e);
+                container.innerHTML = '<p class="text-center text-red-500">상품을 불러오는 중 오류가 발생했습니다.</p>';
+            }
+        }
+
+        function calculateInterest() {
+            const amount = parseFloat(document.getElementById('loan-amount').value.replace(/,/g, ''));
+            const annualRate = parseFloat(document.getElementById('interest-rate').value);
+            let term = parseInt(document.getElementById('loan-term').value);
+            const resultDiv = document.getElementById('calculator-result');
+
+            if (isNaN(amount) || isNaN(annualRate) || isNaN(term) || amount <= 0 || annualRate <= 0 || term <= 0) {
+                resultDiv.innerHTML = '<p class="text-red-500 font-bold py-8">모든 필드를 올바르게 입력해주세요.</p>';
+                document.getElementById('matching-ads-section').classList.add('hidden');
+                return;
+            }
+
+            const termUnit = document.querySelector('.term-unit-btn.bg-blue-600').dataset.unit;
+            if (termUnit === 'year') {
+                term = term * 12; // Convert years to months
+            }
+
+            const repaymentMethod = document.querySelector('.repayment-btn.bg-blue-600').dataset.method;
+            const monthlyRate = annualRate / 100 / 12;
+            let resultHTML = '';
+
+            switch (repaymentMethod) {
+                case 'equal-installment': { // 원리금균등
+                    const monthlyPayment = (amount * monthlyRate * Math.pow(1 + monthlyRate, term)) / (Math.pow(1 + monthlyRate, term) - 1);
+                    const totalPayment = monthlyPayment * term;
+                    const totalInterest = totalPayment - amount;
+
+                    resultHTML = `
+                        <div class="space-y-2 text-left text-sm">
+                            <p class="flex justify-between"><strong>매월 상환금:</strong> <span class="font-mono font-bold">${Math.round(monthlyPayment).toLocaleString()}원</span></p>
+                            <p class="flex justify-between text-gray-600"><strong>총 대출이자:</strong> <span class="font-mono">${Math.round(totalInterest).toLocaleString()}원</span></p>
+                            <p class="flex justify-between text-gray-600"><strong>총 상환금액:</strong> <span class="font-mono">${Math.round(totalPayment).toLocaleString()}원</span></p>
+                        </div>
+                    `;
+                    break;
+                }
+                case 'equal-principal': { // 원금균등
+                    const principalPayment = amount / term;
+                    let totalInterest = 0;
+                    let balance = amount;
+                    
+                    const firstMonthInterest = balance * monthlyRate;
+                    const firstMonthPayment = principalPayment + firstMonthInterest;
+                    
+                    for (let i = 0; i < term; i++) {
+                        totalInterest += balance * monthlyRate;
+                        balance -= principalPayment;
+                    }
+                    const lastMonthPayment = principalPayment + (balance + principalPayment) * monthlyRate;
+                    const totalPayment = amount + totalInterest;
+
+                    resultHTML = `
+                        <div class="space-y-2 text-left text-sm">
+                            <p class="flex justify-between"><strong>월 상환금:</strong> <span class="font-mono font-bold">${Math.round(firstMonthPayment).toLocaleString()}원 ~ ${Math.round(lastMonthPayment).toLocaleString()}원</span></p>
+                            <p class="text-xs text-gray-500">(회차별 상환 원금은 동일, 이자 감소)</p>
+                            <p class="flex justify-between text-gray-600 pt-2"><strong>총 대출이자:</strong> <span class="font-mono">${Math.round(totalInterest).toLocaleString()}원</span></p>
+                            <p class="flex justify-between text-gray-600"><strong>총 상환금액:</strong> <span class="font-mono">${Math.round(totalPayment).toLocaleString()}원</span></p>
+                        </div>
+                    `;
+                    break;
+                }
+                case 'bullet': { // 만기일시
+                    const monthlyInterestPayment = amount * monthlyRate;
+                    const totalInterest = monthlyInterestPayment * term;
+                    const totalPayment = amount + totalInterest;
+
+                    resultHTML = `
+                        <div class="space-y-2 text-left text-sm">
+                            <p class="flex justify-between"><strong>매월 이자:</strong> <span class="font-mono font-bold">${Math.round(monthlyInterestPayment).toLocaleString()}원</span></p>
+                            <p class="flex justify-between"><strong>만기 상환원금:</strong> <span class="font-mono font-bold">${amount.toLocaleString()}원</span></p>
+                            <p class="flex justify-between text-gray-600 pt-2"><strong>총 대출이자:</strong> <span class="font-mono">${Math.round(totalInterest).toLocaleString()}원</span></p>
+                            <p class="flex justify-between text-gray-600"><strong>총 상환금액:</strong> <span class="font-mono">${Math.round(totalPayment).toLocaleString()}원</span></p>
+                        </div>
+                    `;
+                    break;
+                }
+            }
+
+            resultDiv.innerHTML = `
+                <div class="bg-blue-50 p-6 rounded-2xl">
+                    <h4 class="text-md font-black text-blue-700 mb-4">예상 상환금액</h4>
+                    ${resultHTML}
+                </div>
+                <p class="text-xs text-gray-400 mt-4 px-2">* 위 결과는 단순 참고용이며, 실제 대출 상품 및 상환 방식에 따라 달라질 수 있습니다.</p>
+            `;
+            
+            displayMatchingAds(amount, annualRate);
         }
         
         async function loadAdsFromFirebase() {
@@ -527,6 +750,7 @@
 
         window.showPage = showPage;
         window.updateSelection = updateSelection;
+        window.calculateInterest = calculateInterest;
         // Initial page load handler
         window.onload = () => {
             const hash = window.location.hash.substring(1);
@@ -541,6 +765,12 @@
         };
 
     </script>
+        </div>
+
+        <!-- Right Banner -->
+        <div class="hidden lg:block w-[250px] flex-shrink-0 mx-4">
+             <a href="https://www.bluestacks.com/ko/apps/action/penta-storm-on-pc.html" target="_blank" class="sticky top-10"><img src="https://wimg.sedaily.com/news/legacy/2017/03/21/1ODGIK0HWC_1.jpg" alt="Right Banner Ad" width="250" height="465"></a>
+        </div>
     </div>
 </body>
 </html>
