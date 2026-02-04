@@ -211,7 +211,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
-        import { getFirestore, collection, getDocs, getDoc, doc as firestoreDoc, query, orderBy, where, limit as firestoreLimit } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, getDoc, doc as firestoreDoc, query, orderBy, where, limit as firestoreLimit } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAYd6PZFWAoXDnz80l_1-0EDtkDxAkQFy4",
@@ -751,7 +751,7 @@
             displayMatchingAds(amount, annualRate);
         }
 
-        function submitAdInquiry() {
+        async function submitAdInquiry() {
             const company = document.getElementById('ad-company').value.trim();
             const name = document.getElementById('ad-name').value.trim();
             const email = document.getElementById('ad-email').value.trim();
@@ -770,14 +770,11 @@
                 phone,
                 content,
                 status: 'pending',
-                timestamp: new Date().toISOString()
+                created_at: new Date()
             };
 
             try {
-                let inquiries = JSON.parse(localStorage.getItem('adInquiries')) || [];
-                inquiries.push(newInquiry);
-                localStorage.setItem('adInquiries', JSON.stringify(inquiries));
-
+                const docRef = await addDoc(collection(db, "inquiries"), newInquiry);
                 alert('문의가 성공적으로 접수되었습니다.');
                 document.getElementById('ad-company').value = '';
                 document.getElementById('ad-name').value = '';
@@ -785,8 +782,8 @@
                 document.getElementById('ad-phone').value = '';
                 document.getElementById('ad-content').value = '';
             } catch (e) {
-                console.error("LocalStorage 접근 오류.", e);
-                alert("브라우저의 로컬 스토리지를 사용할 수 없어 문의를 저장할 수 없습니다. 브라우저 설정을 확인해주세요.");
+                console.error("문의 등록 실패: ", e);
+                alert("오류가 발생하여 문의를 등록하지 못했습니다.\n\n오류: " + e.message);
             }
         }
         
