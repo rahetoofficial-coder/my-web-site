@@ -70,8 +70,11 @@
             
             <div class="max-w-xl mx-auto bg-white p-4 rounded-[24px] filter-shadow border border-gray-50 text-left">
                 <div class="mb-6">
-                    <h3 class="text-sm font-bold text-gray-400 mb-3 px-1">지역별 바로찾기</h3>
-                    <div id="region-buttons" class="grid grid-cols-4 gap-2">
+                    <button onclick="toggleCategory('region')" class="w-full p-4 bg-gray-50 border rounded-2xl outline-none text-sm font-bold focus:border-blue-600 transition flex justify-between items-center">
+                        <span>지역 선택</span>
+                        <svg id="region-arrow" class="w-4 h-4 text-gray-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div id="region-buttons" class="hidden grid grid-cols-4 gap-2 mt-2">
                         <button onclick="updateSelection('region', '전국', this)" class="filter-btn">전국</button>
                         <button onclick="updateSelection('region', '서울', this)" class="filter-btn">서울</button>
                         <button onclick="updateSelection('region', '경기', this)" class="filter-btn">경기</button>
@@ -83,8 +86,11 @@
                     </div>
                 </div>
                 <div>
-                    <h3 class="text-sm font-bold text-gray-400 mb-3 px-1">상품별 바로찾기</h3>
-                    <div id="loantype-buttons" class="grid grid-cols-3 gap-2">
+                    <button onclick="toggleCategory('loantype')" class="w-full p-4 bg-gray-50 border rounded-2xl outline-none text-sm font-bold focus:border-blue-600 transition flex justify-between items-center">
+                        <span>상품 선택</span>
+                        <svg id="loantype-arrow" class="w-4 h-4 text-gray-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    <div id="loantype-buttons" class="hidden grid grid-cols-3 gap-2 mt-2">
                         <button onclick="updateSelection('loantype', '소액대출', this)" class="filter-btn"><span>🏢</span><span>소액대출</span></button>
                         <button onclick="updateSelection('loantype', '직장인', this)" class="filter-btn"><span>👨‍💼</span><span>직장인</span></button>
                         <button onclick="updateSelection('loantype', '사업자', this)" class="filter-btn"><span>🛍️</span><span>사업자</span></button>
@@ -172,11 +178,14 @@
     </div>
 
     <div id="page-register" class="page-content hidden bg-white pb-24 text-left"><section class="py-12 px-6 max-w-xl mx-auto"><h2 class="text-2xl font-black mb-10 italic">업체 회원가입</h2><div class="space-y-6"><label class="font-black text-sm block">핸드폰 인증</label><div class="flex gap-2"><input type="tel" placeholder="010-0000-0000" class="flex-1 p-4 bg-gray-50 rounded-xl outline-none font-bold text-sm"><button class="bg-blue-600 text-white px-4 py-2 rounded-xl font-bold text-xs">인증요청</button></div><button class="w-full bg-blue-600 text-white py-5 rounded-2xl font-black text-lg mt-6">가입 완료</button></div></section></div>
-    <div id="page-ads" class="page-content hidden bg-white pb-24 text-left"><section class="py-10 px-6 max-w-xl mx-auto"><h2 class="text-2xl font-black mb-8 italic text-blue-600">AD Inquiry</h2><div class="bg-gray-50 p-6 rounded-[28px] border border-gray-100"><input type="text" placeholder="업체명" class="w-full p-4 bg-white border-none rounded-xl mb-3 outline-none font-bold text-sm">
-                        <input type="text" placeholder="담당자 성함" class="w-full p-4 bg-white border-none rounded-xl mb-3 outline-none font-bold text-sm">
-                        <input type="email" placeholder="이메일 주소" class="w-full p-4 bg-white border-none rounded-xl mb-3 outline-none font-bold text-sm">
-                        <input type="tel" placeholder="연락처" class="w-full p-4 bg-white border-none rounded-xl mb-3 outline-none font-bold text-sm">
-                        <textarea rows="4" placeholder="문의 내용" class="w-full p-4 bg-white border-none rounded-xl mb-3 outline-none font-bold text-sm"></textarea><button onclick="alert('접수')" class="w-full bg-blue-600 text-white py-4 rounded-xl font-black">신청하기</button></div></section></div>
+    <div id="page-ads" class="page-content hidden bg-white pb-24 text-left"><section class="py-10 px-6 max-w-xl mx-auto"><h2 class="text-2xl font-black mb-8 italic text-blue-600">AD Inquiry</h2><div class="bg-gray-50 p-6 rounded-[28px] border border-gray-100">
+                        <input type="text" id="ad-company" placeholder="업체명" class="w-full p-4 bg-white border-none rounded-xl mb-3 outline-none font-bold text-sm">
+                        <input type="text" id="ad-name" placeholder="담당자 성함" class="w-full p-4 bg-white border-none rounded-xl mb-3 outline-none font-bold text-sm">
+                        <input type="email" id="ad-email" placeholder="이메일 주소" class="w-full p-4 bg-white border-none rounded-xl mb-3 outline-none font-bold text-sm">
+                        <input type="tel" id="ad-phone" placeholder="연락처" class="w-full p-4 bg-white border-none rounded-xl mb-3 outline-none font-bold text-sm">
+                        <textarea id="ad-content" rows="4" placeholder="문의 내용" class="w-full p-4 bg-white border-none rounded-xl mb-3 outline-none font-bold text-sm"></textarea>
+                        <button onclick="submitAdInquiry()" class="w-full bg-blue-600 text-white py-4 rounded-xl font-black">신청하기</button>
+                    </div></section></div>
 
     <div id="bottom-bar" class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 px-5 py-3 flex gap-3 z-50 shadow-[0_-5px_20px_rgba(0,0,0,0.05)]">
         <button class="flex-1 bg-blue-600 text-white py-4 rounded-xl font-black text-sm shadow-md" onclick="window.location.href='tel:1588-0000'">실시간 전화상담</button>
@@ -220,28 +229,49 @@
         let selectedRegion = null;
         let selectedLoanType = null;
 
+        function toggleCategory(category) {
+            const buttonContainer = document.getElementById(category + '-buttons');
+            const arrow = document.getElementById(category + '-arrow');
+            if (buttonContainer) {
+                buttonContainer.classList.toggle('hidden');
+                if (arrow) {
+                    arrow.classList.toggle('rotate-180');
+                }
+            }
+        }
+
         function updateSelection(group, value, element) {
             const buttonGroup = element.parentElement;
+            const mainButton = buttonGroup.previousElementSibling;
+            const mainButtonText = mainButton.querySelector('span');
             
             if (group === 'region') {
                 if (selectedRegion === value) {
                     selectedRegion = null;
                     element.classList.remove('active');
+                    mainButtonText.innerText = '지역 선택';
                 } else {
                     selectedRegion = value;
                     buttonGroup.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
                     element.classList.add('active');
+                    mainButtonText.innerText = value;
                 }
             } else if (group === 'loantype') {
                 if (selectedLoanType === value) {
                     selectedLoanType = null;
                     element.classList.remove('active');
+                    mainButtonText.innerText = '상품 선택';
                 } else {
                     selectedLoanType = value;
                     buttonGroup.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
                     element.classList.add('active');
+                    mainButtonText.innerText = value;
                 }
             }
+
+            // Close the dropdown after selection
+            toggleCategory(group);
+            
             showResults();
         }
 
@@ -720,6 +750,45 @@
             
             displayMatchingAds(amount, annualRate);
         }
+
+        function submitAdInquiry() {
+            const company = document.getElementById('ad-company').value.trim();
+            const name = document.getElementById('ad-name').value.trim();
+            const email = document.getElementById('ad-email').value.trim();
+            const phone = document.getElementById('ad-phone').value.trim();
+            const content = document.getElementById('ad-content').value.trim();
+
+            if (!company || !name || !email || !phone || !content) {
+                alert('모든 항목을 입력해주세요.');
+                return;
+            }
+
+            const newInquiry = {
+                company,
+                name,
+                email,
+                phone,
+                content,
+                status: 'pending',
+                timestamp: new Date().toISOString()
+            };
+
+            try {
+                let inquiries = JSON.parse(localStorage.getItem('adInquiries')) || [];
+                inquiries.push(newInquiry);
+                localStorage.setItem('adInquiries', JSON.stringify(inquiries));
+
+                alert('문의가 성공적으로 접수되었습니다.');
+                document.getElementById('ad-company').value = '';
+                document.getElementById('ad-name').value = '';
+                document.getElementById('ad-email').value = '';
+                document.getElementById('ad-phone').value = '';
+                document.getElementById('ad-content').value = '';
+            } catch (e) {
+                console.error("LocalStorage 접근 오류.", e);
+                alert("브라우저의 로컬 스토리지를 사용할 수 없어 문의를 저장할 수 없습니다. 브라우저 설정을 확인해주세요.");
+            }
+        }
         
         async function loadAdsFromFirebase() {
             const adCon = document.getElementById('main-ads-container');
@@ -751,6 +820,8 @@
         window.showPage = showPage;
         window.updateSelection = updateSelection;
         window.calculateInterest = calculateInterest;
+        window.toggleCategory = toggleCategory;
+        window.submitAdInquiry = submitAdInquiry;
         // Initial page load handler
         window.onload = () => {
             const hash = window.location.hash.substring(1);
