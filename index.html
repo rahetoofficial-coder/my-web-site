@@ -170,9 +170,9 @@
         <section class="py-10 px-6 max-w-xl mx-auto">
             <h2 class="text-2xl font-black mb-6 italic text-blue-600">📝 실시간 문의등록</h2>
             <div class="space-y-4 bg-gray-50 p-6 rounded-[28px] border border-gray-100">
-                <input type="text" placeholder="제목을 입력하세요" class="w-full p-4 bg-white rounded-xl font-bold text-sm outline-none border focus:border-blue-600">
-                <textarea rows="6" placeholder="희망 지역, 금액, 연락처 등 내용을 입력하세요" class="w-full p-4 bg-white rounded-xl font-bold text-sm outline-none border focus:border-blue-600"></textarea>
-                <button onclick="alert('등록되었습니다.')" class="w-full bg-blue-600 text-white py-5 rounded-2xl font-black shadow-lg">문의 등록하기</button>
+                <input type="text" id="cs-title" placeholder="제목을 입력하세요" class="w-full p-4 bg-white rounded-xl font-bold text-sm outline-none border focus:border-blue-600">
+                <textarea id="cs-content" rows="6" placeholder="희망 지역, 금액, 연락처 등 내용을 입력하세요" class="w-full p-4 bg-white rounded-xl font-bold text-sm outline-none border focus:border-blue-600"></textarea>
+                <button onclick="submitCsInquiry()" class="w-full bg-blue-600 text-white py-5 rounded-2xl font-black shadow-lg">문의 등록하기</button>
             </div>
         </section>
     </div>
@@ -786,6 +786,33 @@
                 alert("오류가 발생하여 문의를 등록하지 못했습니다.\n\n오류: " + e.message);
             }
         }
+
+        async function submitCsInquiry() {
+            const title = document.getElementById('cs-title').value.trim();
+            const content = document.getElementById('cs-content').value.trim();
+
+            if (!title || !content) {
+                alert('모든 항목을 입력해주세요.');
+                return;
+            }
+
+            const newInquiry = {
+                title,
+                content,
+                status: 'pending',
+                created_at: new Date()
+            };
+
+            try {
+                const docRef = await addDoc(collection(db, "cs_inquiries"), newInquiry);
+                alert('문의가 성공적으로 접수되었습니다.');
+                document.getElementById('cs-title').value = '';
+                document.getElementById('cs-content').value = '';
+            } catch (e) {
+                console.error("실시간 문의 등록 실패: ", e);
+                alert("오류가 발생하여 문의를 등록하지 못했습니다.\n\n오류: " + e.message);
+            }
+        }
         
         async function loadAdsFromFirebase() {
             const adCon = document.getElementById('main-ads-container');
@@ -819,6 +846,7 @@
         window.calculateInterest = calculateInterest;
         window.toggleCategory = toggleCategory;
         window.submitAdInquiry = submitAdInquiry;
+        window.submitCsInquiry = submitCsInquiry;
         // Initial page load handler
         window.onload = () => {
             const hash = window.location.hash.substring(1);
